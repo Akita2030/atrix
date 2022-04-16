@@ -48,3 +48,26 @@ class AnnouncementOrderedAPIView(APIView):
             status=status.HTTP_200_OK,
             data=serializer.data
         )
+
+class AnnounceByCategoryAPIView(APIView):
+    permission_classes = (AllowAny, )
+    serializer_classes = AnnouncementListSerializer
+
+    def get(self,request):
+        category_pk = Category.objects.get(pk=id)
+        announce_order = Announcement.objects.filter(categ_relate = category_pk)
+        serializer = self.serializer_classes(announce_order, many=True)
+        if announce_order:
+            return Response(
+                status=status.HTTP_200_OK,
+                data={
+                'success':True,
+                'message':serializer.data
+                })
+        else:
+            return Response(
+                status=status.HTTP_404_NOT_FOUND,
+                data={
+                    'success':False,
+                    'announce':'Not found!'
+                    })

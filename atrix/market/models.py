@@ -20,7 +20,10 @@ class Subcategory(models.Model):
     created_at = models.DateTimeField(default=timezone.now,editable=False)
 
 class Announcement(models.Model):
-
+    categ_relate = models.ForeignKey(
+        to=Category,
+        on_delete=models.CASCADE,
+    )
 
     announce = models.CharField(max_length=256)
 
